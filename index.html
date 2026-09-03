@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+<title>Module Readiness</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root{
+  color-scheme: light dark;
+  --bg:#F6F6F4;
+  --surface:#FFFFFF;
+  --surface-2:#EEEEEA;
+  --ink:#15161A;
+  --ink-2:#54575F;
+  --ink-3:#8A8D95;
+  --border:#E2E2DD;
+  --shadow:0 1px 2px rgba(20,20,22,0.05), 0 4px 14px rgba(20,20,22,0.05);
+
+  /* categorical, one per course — reference palette slots 1/2/3/4, default order (validated adjacent-pair, both themes) */
+  --c-nlp:#2a78d6;
+  --c-cv:#eb6834;
+  --c-dl:#1baf7a;
+  --c-fl:#d69200;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#121316;
+    --surface:#1B1D22;
+    --surface-2:#23262C;
+    --ink:#F0F0F1;
+    --ink-2:#B5B8C0;
+    --ink-3:#7D808A;
+    --border:#2C2F36;
+    --shadow:0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+    --c-nlp:#3987e5;
+    --c-cv:#d95926;
+    --c-dl:#199e70;
+    --c-fl:#c98500;
+  }
+}
+
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Archivo',system-ui,-apple-system,sans-serif;line-height:1.45;}
+.wrap{max-width:1140px;margin:0 auto;padding:0 24px 60px;}
+
+/* sticky course nav */
+.coursenav{position:sticky;top:0;z-index:10;display:flex;gap:8px;padding:12px 24px;margin:0 -24px 28px;background:color-mix(in oklab, var(--bg) 86%, transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--border);}
+.coursenav a{--nc:var(--c);font-weight:700;font-size:13px;text-decoration:none;padding:7px 15px;border-radius:20px;color:var(--nc);background:color-mix(in oklab, var(--nc) 16%, var(--surface));border:1px solid color-mix(in oklab, var(--nc) 32%, var(--border));transition:transform .15s cubic-bezier(.2,.8,.3,1), box-shadow .15s ease, background .15s ease;}
+.coursenav a:hover,.coursenav a:focus-visible{transform:translateY(-3px) scale(1.06);box-shadow:0 8px 18px -6px color-mix(in oklab, var(--nc) 55%, transparent);background:color-mix(in oklab, var(--nc) 26%, var(--surface));outline:none;}
+
+/* header */
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:28px 0 22px;border-bottom:1px solid var(--border);margin-bottom:24px;}
+h1{font-weight:800;font-size:clamp(24px,3.2vw,32px);margin:0;letter-spacing:-.01em;text-wrap:balance;}
+.updated{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-3);white-space:nowrap;}
+.updated b{color:var(--ink-2);font-weight:500;}
+
+/* summary tiles */
+.summary-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-bottom:34px;}
+.tile{background:var(--surface);border-left:3px solid var(--c);border-radius:8px;padding:13px 16px;box-shadow:var(--shadow);}
+.tile-label{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:600;margin-bottom:7px;}
+.tile-num{font-size:19px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink);}
+.tile-num span{font-weight:500;color:var(--ink-3);font-size:14px;}
+
+/* course sections — tinted zones */
+main{display:flex;flex-direction:column;gap:22px;}
+.course{border-radius:18px;padding:22px 22px 26px;background:color-mix(in oklab, var(--c) 18%, var(--surface));border:1px solid color-mix(in oklab, var(--c) 30%, var(--border));scroll-margin-top:72px;}
+.course-head{display:flex;align-items:baseline;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+.course-init{font-weight:800;font-size:20px;color:var(--c);letter-spacing:-.01em;}
+.course-faculty{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-2);}
+
+.module-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:12px;}
+
+.mcard{background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:13px 15px 15px;box-shadow:var(--shadow);}
+.mcard-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.mcard-title{font-weight:700;font-size:13.5px;}
+.mcard-frac{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-3);font-variant-numeric:tabular-nums;}
+
+.bar-track{height:6px;border-radius:3px;background:color-mix(in oklab, var(--c) 14%, var(--surface-2));overflow:hidden;margin-bottom:11px;}
+.bar-fill{height:100%;border-radius:3px;background:var(--c);}
+.bar-fill.t1{width:33.4%;background:color-mix(in oklab, var(--c) 45%, var(--surface));}
+.bar-fill.t2{width:66.7%;background:color-mix(in oklab, var(--c) 78%, var(--surface));}
+.bar-fill.t3{width:100%;}
+.bar-fill.t0{width:0;}
+
+.rwd-row{display:flex;gap:8px;padding:5px 0;border-top:1px solid var(--border);}
+.rwd-row:first-of-type{border-top:none;}
+.dot{width:8px;height:8px;border-radius:50%;margin-top:5px;flex:0 0 auto;background:transparent;border:1.5px solid color-mix(in oklab, var(--c) 55%, var(--ink-3));}
+.dot.filled{background:var(--c);border-color:var(--c);}
+.rwd-body{flex:1;min-width:0;}
+.rwd-label{font-size:11.5px;font-weight:600;color:var(--ink-2);display:flex;gap:6px;align-items:baseline;}
+.rwd-count{font-family:'JetBrains Mono',monospace;font-weight:400;color:var(--ink-3);font-variant-numeric:tabular-nums;}
+.fchips{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px;}
+.fchip{font-family:'JetBrains Mono',monospace;font-size:10.5px;line-height:1.4;background:var(--surface-2);color:var(--ink-2);border-radius:4px;padding:2px 6px;white-space:nowrap;}
+.rwd-dash{color:var(--ink-3);}
+.nonconform{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-3);margin-top:9px;padding-top:8px;border-top:1px dashed var(--border);}
+
+.empty-strip{grid-column:1/-1;border:1px dashed color-mix(in oklab, var(--c) 35%, var(--border));border-radius:9px;padding:10px 15px;color:var(--ink-2);font-size:11.5px;font-family:'JetBrains Mono',monospace;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="coursenav">
+    <a href="#nlp" style="--c:var(--c-nlp)">NLP</a>
+    <a href="#cv" style="--c:var(--c-cv)">CV</a>
+    <a href="#dl" style="--c:var(--c-dl)">DL</a>
+    <a href="#fl" style="--c:var(--c-fl)">FL</a>
+  </nav>
+
+  <header class="page-head">
+    <h1>Module Readiness</h1>
+    <div class="updated"><b>Last updated</b> · Sept 3, 2026</div>
+  </header>
+
+  <section class="summary-row">
+    <div class="tile" style="--c:var(--c-nlp)"><div class="tile-label">NLP</div><div class="tile-num">3 <span>/ 10 modules ready</span></div></div>
+    <div class="tile" style="--c:var(--c-cv)"><div class="tile-label">CV</div><div class="tile-num">0 <span>/ 1 module ready</span></div></div>
+    <div class="tile" style="--c:var(--c-dl)"><div class="tile-label">DL</div><div class="tile-num">0 <span>/ 1 module ready</span></div></div>
+    <div class="tile" style="--c:var(--c-fl)"><div class="tile-label">FL</div><div class="tile-num">1 <span>/ 5 modules ready</span></div></div>
+  </section>
+
+  <main>
+
+    <!-- NLP -->
+    <section class="course" id="nlp" style="--c:var(--c-nlp)">
+      <div class="course-head"><span class="course-init">NLP</span><span class="course-faculty">Dr. S · Dr. S</span></div>
+      <div class="module-grid">
+
+        <div class="mcard">
+          <div class="mcard-head"><span class="mcard-title">Module 1</span><span class="mcard-frac">3/3</span></div>
+          <div class="bar-track"><div class="bar-fill t3"></div></div>
+          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">5</span></div>
+            <div class="fchips"><span class="fchip">M1_RM_L1.docx</span><span class="fchip">M1_RM_L2_L3.docx</span><span class="fchip">M1_RM_L4.docx</span><span class="fchip">M1_RM_L5.docx</span><span class="fchip">M1_RM_L6.docx</span></div></div></div>
+          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Watch <span class="rwd-count">9</span></div>
+            <div class="fchips"><span class="fchip">M1_L1</span><span class="fchip">M1_L2</span><span class="fchip">M1_L3</span><span class="fchip">M1_L4</span><span class="fchip">M1_L5</span><span class="fchip">M1_L6</span><span class="fchip">M1_Introduction.mp4</span><span class="fchip">M1_L1.mp4</span><span class="fchip">M1_L2.mp4</span></div></div></div>
+          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Do <span class="rwd-count">4</span></div>
+            <div class="fchips"><span class="fchip">M1_PQ_L1_L2.docx</span><span class="fchip">M1_PQ_L3_L4.docx</span><span class="fchip">M1_PQ_L5_L6.docx</span><span class="fchip">CT723_Module1_Graded_Quiz.docx</span></div></div></div>
+        </div>
+
+        <div class="mcard">
+          <div class="mcard-head"><span class="mcard-title">Module 2</span><span class="mcard-frac">3/3</span></div>
+          <div class="bar-track"><div class="bar-fill t3"></div></div>
+          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">6</span></div>
+            <div class="fchips"><span class="fchip">M2_RM_L1.1.docx</span><span class="fchip">M2_RM_L1.2.docx</span><span class="fchip">M2_RM_L2.docx</span><span class="fchip">M2_RM_L3.docx</span><span class="fchip">M2_RM_L4.docx</span><span class="fchip">M2_RM_L5.docx</span></div></div></div>
+          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Watch <span class="rwd-count">5</span></div>
+            <div class="fchips"><span class="fchip">M2_L1</span><span class="fchip">M2_L2</span><span class="fchip">M2_L3</span><span class="fchip">M2_L4</span><span class="fchip">M2_L5</span></div></div></div>
+          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Do <span class="rwd-count">3</span></div>
+            <div class="fchips"><span class="fchip">M2_PQ_L1_L2_L3.docx</span><span class="fchip">M2_PQ_L4_L5.docx</span><span class="fchip">CT723_Module2_Graded_Quiz.docx</span></div></div></div>
+        </div>
+
+        <div class="mcard">
+          <div class="mcard-head"><span class="mcard-title">Module 3</span><span class="mcard-frac">3/3</span></div>
+          <div class="bar-track"><div class="bar-fill t3"></div></div>
+          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">6</span></div>
+            <div class="fchips"><span class="fchip">M3_RM_L1.docx</span><span class="fchip">M3_RM_L2.docx</span><span class="fchip">M3_RM_L3.docx</span><span class="fchip">M3_RM_L4.1.docx</span><span class="fchip">M3_RM_L4.2.docx</span><span class="fchip">M3_RM_L5.docx</span></div></div></div>
+          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Watch <span class="rwd-count">5</span></div>
+            <div class="fchips"><span class="fchip">M3_L1.pptx</span><span class="fchip">M3_L2.pptx</span><span class="fchip">M3_L3.pptx</span><span class="fchip">M3_L4.pptx</span><span class="fchip">M3_L5.pptx</span></div></div></div>
+          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Do <span class="rwd-count">3</span></div>
+            <div class="fchips"><span class="fchip">M3_PQ_L1_L2_L3.docx</span><span class="fchip">M3_PQ_L4_L5.docx</span><span class="fchip">CT723_Module3_Graded_Quiz.docx</span></div></div></div>
+          <div class="nonconform">+2 files not matching convention</div>
+        </div>
+
+        <div class="mcard">
+          <div class="mcard-head"><span class="mcard-title">Module 4</span><span class="mcard-frac">1/3</span></div>
+          <div class="bar-track"><div class="bar-fill t1"></div></div>
+          <div class="rwd-row"><span class="dot"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">0</span></div><div class="rwd-dash">—</div></div></div>
+          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Watch <span class="rwd-count">7</span></div>
+            <div class="fchips"><span class="fchip">M4_SL_L1. Vector Representations.pptx</span><span class="fchip">M4_SL_L2. Dense Vectors.pptx</span><span class="fchip">M4_SL_L3. Word2Vec.pptx</span><span class="fchip">M4_SL_L4. Cbow.pptx</span><span class="fchip">M4_SL_L5. Glove.pptx</span><span class="fchip">M4_SL_L6.Vectors-Fastext.pptx</span><span class="fchip">M4_SL_L7. Vectors- Elmo.pptx</span></div></div></div>
+          <div class="rwd-row"><span class="dot"></span><div class="rwd-body"><div class="rwd-label">Do <span class="rwd-count">0</span></div><div class="rwd-dash">—</div></div></div>
+        </div>
+
+        <div class="mcard">
+          <div class="mcard-head"><span class="mcard-title">Module 5</span><span class="mcard-frac">1/3</span></div>
+          <div class="bar-track"><div class="bar-fill t1"></div></div>
+          <div class="rwd-row"><span class="dot"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">0</span></div><div class="rwd-dash">—</div></div></div>
+          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Watch <span class="rwd-count">4</span></div>
+            <div class="fchips"><span class="fchip">M5_SL_L1.NN and NLP.pptx</span><span class="fchip">M5_SL_L2. RNN and NLP.pptx</span><span class="fchip">M5_SL_L3. LM and RNN.pptx</span><span class="fchip">M5_SL_L4. Sequence to Sequence.pptx</span></div></div></div>
+          <div class="rwd-row"><span class="dot"></span><div class="rwd-body"><div class="rwd-label">Do <span class="rwd-count">0</span></div><div class="rwd-dash">—</div></div></div>
+        </div>
+
+        <div class="empty-strip">M6–M10 · not started</div>
+      </div>
+    </section>
+
+    <!-- CV -->
+    <section class="course" id="cv" style="--c:var(--c-cv)">
+      <div class="course-head"><span class="course-init">CV</span><span class="course-faculty">Dr. S</span></div>
+      <div class="module-grid">
+        <div class="mcard">
+          <div class="mcard-head"><span class="mcard-title">Module 1</span><span class="mcard-frac">2/3</span></div>
+          <div class="bar-track"><div class="bar-fill t2"></div></div>
+          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">3</span></div>
+            <div class="fchips"><span class="fchip">M1-L1-RM1_New.docx</span><span class="fchip">M1_L3_RM.docx</span><span class="fchip">M1-L4-RM.docx</span></div></div></div>
+          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Watch <span class="rwd-count">3</span></div>
+            <div class="fchips"><span class="fchip">M1-L1</span><span class="fchip">M1-L3</span><span class="fchip">M1-L4</span></div></div></div>
+          <div class="rwd-row"><span class="dot"></span><div class="rwd-body"><div class="rwd-label">Do <span class="rwd-count">0</span></div><div class="rwd-dash">—</div></div></div>
+        </div>
+        <div class="empty-strip">No other modules started</div>
+      </div>
+    </section>
+
+    <!-- DL -->
+    <section class="course" id="dl" style="--c:var(--c-dl)">
+      <div class="course-head"><span class="course-init">DL</span><span class="course-faculty">Dr. A</span></div>
+      <div class="module-grid">
+        <div class="mcard">
+          <div class="mcard-head"><span class="mcard-title">Module 1</span><span class="mcard-frac">0/3</span></div>
+          <div class="bar-track"><div class="bar-fill t0"></div></div>
+          <div class="rwd-row"><span class="dot"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">0</span></div><div class="rwd-dash">—</div></div></div>
+          <div class="rwd-row"><span class="dot"></span><div class="rwd-body"><div class="rwd-label">Watch <span class="rwd-count">0</span></div><div class="rwd-dash">—</div></div></div>
+          <div class="rwd-row"><span class="dot"></span><div class="rwd-body"><div class="rwd-label">Do <span class="rwd-count">0</span></div><div class="rwd-dash">—</div></div></div>
+        </div>
+        <div class="empty-strip">No other modules started</div>
+      </div>
+    </section>
+
+    <!-- FL -->
+    <section class="course" id="fl" style="--c:var(--c-fl)">
+      <div class="course-head"><span class="course-init">FL</span><span class="course-faculty">Dr. J</span></div>
+      <div class="module-grid">
+        <div class="mcard">
+          <div class="mcard-head"><span class="mcard-title">Module 0</span><span class="mcard-frac">1/3</span></div>
+          <div class="bar-track"><div class="bar-fill t1"></div></div>
+          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">1</span></div>
+            <div class="fchips"><span class="fchip">M0 RM.pdf</span></div></div></div>
+          <div class="rwd-row"><span class="dot"></span><div class="rwd-body"><div class="rwd-label">Watch <span class="rwd-count">0</span></div><div class="rwd-dash">—</div></div></div>
+          <div class="rwd-row"><span class="dot"></span><div class="rwd-body"><div class="rwd-label">Do <span class="rwd-count">0</span></div><div class="rwd-dash">—</div></div></div>
+        </div>
+        <div class="mcard">
+          <div class="mcard-head"><span class="mcard-title">Module 1</span><span class="mcard-frac">3/3</span></div>
+          <div class="bar-track"><div class="bar-fill t3"></div></div>
+          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">1</span></div>
+            <div class="fchips"><span class="fchip">M1 RM L1</span></div></div></div>
+          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Watch <span class="rwd-count">2</span></div>
+            <div class="fchips"><span class="fchip">M1 L1 Slide</span><span class="fchip">M1 L2 Slide</span></div></div></div>
+          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Do <span class="rwd-count">2</span></div>
+            <div class="fchips"><span class="fchip">M1 L1 Quiz</span><span class="fchip">M1 L1 Assignment</span></div></div></div>
+        </div>
+        <div class="empty-strip">M2–M4 · not started</div>
+      </div>
+    </section>
+
+  </main>
+
+</div>
+</body>
+</html>
