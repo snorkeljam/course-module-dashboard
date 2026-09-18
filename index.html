@@ -19,6 +19,9 @@
   --ink-3:#8A8D95;
   --border:#E2E2DD;
   --shadow:0 1px 2px rgba(20,20,22,0.05), 0 4px 14px rgba(20,20,22,0.05);
+  --note-bg:#FFF8E1;
+  --note-border:#E8D28A;
+  --note-ink:#5C4A12;
 
   /* categorical, one per course — reference palette slots 1/2/3/4, default order (validated adjacent-pair, both themes) */
   --c-nlp:#2a78d6;
@@ -36,6 +39,9 @@
     --ink-3:#A3A6B0;
     --border:#44474F;
     --shadow:0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+    --note-bg:#3A331A;
+    --note-border:#6B5A24;
+    --note-ink:#F2DFA0;
     --c-nlp:#5b9df0;
     --c-cv:#f07a41;
     --c-dl:#2fc48c;
@@ -47,16 +53,20 @@
 body{margin:0;background:var(--bg);color:var(--ink);font-family:'Archivo',system-ui,-apple-system,sans-serif;line-height:1.45;font-weight:500;}
 .wrap{max-width:1140px;margin:0 auto;padding:0 24px 60px;}
 
+/* header */
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:28px 0 18px;}
+h1{font-weight:900;font-size:clamp(26px,3.4vw,34px);margin:0;letter-spacing:-.01em;text-wrap:balance;}
+.updated{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--ink-2);white-space:nowrap;}
+.updated b{color:var(--ink);font-weight:700;}
+
+/* explanatory disclaimer note — always visible, under title, above nav */
+.note{background:var(--note-bg);border:1px solid var(--note-border);color:var(--note-ink);border-radius:10px;padding:12px 16px;margin:0 0 20px;font-size:13.5px;font-weight:600;line-height:1.5;}
+.note b{font-weight:800;}
+
 /* sticky course nav */
 .coursenav{position:sticky;top:0;z-index:10;display:flex;gap:8px;padding:12px 24px;margin:0 -24px 28px;background:color-mix(in oklab, var(--bg) 86%, transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--border);}
 .coursenav a{--nc:var(--c);font-weight:800;font-size:13px;text-decoration:none;padding:7px 15px;border-radius:20px;color:var(--nc);background:color-mix(in oklab, var(--nc) 16%, var(--surface));border:1px solid color-mix(in oklab, var(--nc) 32%, var(--border));transition:transform .15s cubic-bezier(.2,.8,.3,1), box-shadow .15s ease, background .15s ease;}
 .coursenav a:hover,.coursenav a:focus-visible{transform:translateY(-3px) scale(1.06);box-shadow:0 8px 18px -6px color-mix(in oklab, var(--nc) 55%, transparent);background:color-mix(in oklab, var(--nc) 26%, var(--surface));outline:none;}
-
-/* header */
-.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:28px 0 22px;border-bottom:1px solid var(--border);margin-bottom:24px;}
-h1{font-weight:900;font-size:clamp(26px,3.4vw,34px);margin:0;letter-spacing:-.01em;text-wrap:balance;}
-.updated{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--ink-2);white-space:nowrap;}
-.updated b{color:var(--ink);font-weight:700;}
 
 /* summary tiles */
 .summary-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-bottom:34px;}
@@ -79,7 +89,7 @@ main{display:flex;flex-direction:column;gap:22px;}
 .mcard-title{font-weight:800;font-size:16px;color:var(--ink);}
 .mcard-frac{font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:700;color:var(--ink-2);font-variant-numeric:tabular-nums;}
 
-/* thick, labeled, brightening-gradient progress bar */
+/* thick, labeled, brightening-gradient submission bar */
 .bar-track{position:relative;height:20px;border-radius:10px;background:color-mix(in oklab, var(--c) 16%, var(--surface-2));border:1px solid color-mix(in oklab, var(--c) 26%, var(--border));overflow:hidden;margin-bottom:12px;}
 .bar-fill{height:100%;border-radius:9px;}
 .bar-fill.t0{width:0;}
@@ -107,6 +117,13 @@ main{display:flex;flex-direction:column;gap:22px;}
 <body>
 <div class="wrap">
 
+  <header class="page-head">
+    <h1>Module Readiness</h1>
+    <div class="updated"><b>Last updated</b> · Sept 18, 2026</div>
+  </header>
+
+  <p class="note"><b>What this page shows:</b> which files have been SUBMITTED to each module folder — whether a Read, a Watch and a Do file exists yet. It does not mean that material has been reviewed, edited or approved. Submitted material is still being revised.</p>
+
   <nav class="coursenav">
     <a href="#nlp" style="--c:var(--c-nlp)">NLP</a>
     <a href="#cv" style="--c:var(--c-cv)">CV</a>
@@ -114,16 +131,11 @@ main{display:flex;flex-direction:column;gap:22px;}
     <a href="#fl" style="--c:var(--c-fl)">FL</a>
   </nav>
 
-  <header class="page-head">
-    <h1>Module Readiness</h1>
-    <div class="updated"><b>Last updated</b> · Sept 16, 2026</div>
-  </header>
-
   <section class="summary-row">
-    <div class="tile" style="--c:var(--c-nlp)"><div class="tile-label">NLP</div><div class="tile-num">3 <span>/ 10 modules ready</span></div></div>
-    <div class="tile" style="--c:var(--c-cv)"><div class="tile-label">CV</div><div class="tile-num">0 <span>/ 2 modules ready</span></div></div>
-    <div class="tile" style="--c:var(--c-dl)"><div class="tile-label">DL</div><div class="tile-num">0 <span>/ 1 module ready</span></div></div>
-    <div class="tile" style="--c:var(--c-fl)"><div class="tile-label">FL</div><div class="tile-num">1 <span>/ 9 modules ready</span></div></div>
+    <div class="tile" style="--c:var(--c-nlp)"><div class="tile-label">NLP</div><div class="tile-num">3 <span>/ 10 modules with all 3 submitted</span></div></div>
+    <div class="tile" style="--c:var(--c-cv)"><div class="tile-label">CV</div><div class="tile-num">0 <span>/ 3 modules with all 3 submitted</span></div></div>
+    <div class="tile" style="--c:var(--c-dl)"><div class="tile-label">DL</div><div class="tile-num">0 <span>/ 1 module with all 3 submitted</span></div></div>
+    <div class="tile" style="--c:var(--c-fl)"><div class="tile-label">FL</div><div class="tile-num">4 <span>/ 9 modules with all 3 submitted</span></div></div>
   </section>
 
   <main>
@@ -135,7 +147,7 @@ main{display:flex;flex-direction:column;gap:22px;}
 
         <div class="mcard">
           <div class="mcard-head"><span class="mcard-title">Module 1</span><span class="mcard-frac">3/3</span></div>
-          <div class="bar-track"><div class="bar-fill t3"></div><div class="bar-label"><span>3/3 ready</span></div></div>
+          <div class="bar-track"><div class="bar-fill t3"></div><div class="bar-label"><span>3 of 3 submitted</span></div></div>
           <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">5</span></div>
             <div class="fchips"><span class="fchip">M1_RM_L1.docx</span><span class="fchip">M1_RM_L2_L3.docx</span><span class="fchip">M1_RM_L4.docx</span><span class="fchip">M1_RM_L5.docx</span><span class="fchip">M1_RM_L6.docx</span></div></div></div>
           <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Watch <span class="rwd-count">10</span></div>
@@ -146,7 +158,7 @@ main{display:flex;flex-direction:column;gap:22px;}
 
         <div class="mcard">
           <div class="mcard-head"><span class="mcard-title">Module 2</span><span class="mcard-frac">3/3</span></div>
-          <div class="bar-track"><div class="bar-fill t3"></div><div class="bar-label"><span>3/3 ready</span></div></div>
+          <div class="bar-track"><div class="bar-fill t3"></div><div class="bar-label"><span>3 of 3 submitted</span></div></div>
           <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">6</span></div>
             <div class="fchips"><span class="fchip">M2_RM_L1.1.docx</span><span class="fchip">M2_RM_L1.2.docx</span><span class="fchip">M2_RM_L2.docx</span><span class="fchip">M2_RM_L3.docx</span><span class="fchip">M2_RM_L4.docx</span><span class="fchip">M2_RM_L5.docx</span></div></div></div>
           <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Watch <span class="rwd-count">5</span></div>
@@ -157,7 +169,7 @@ main{display:flex;flex-direction:column;gap:22px;}
 
         <div class="mcard">
           <div class="mcard-head"><span class="mcard-title">Module 3</span><span class="mcard-frac">3/3</span></div>
-          <div class="bar-track"><div class="bar-fill t3"></div><div class="bar-label"><span>3/3 ready</span></div></div>
+          <div class="bar-track"><div class="bar-fill t3"></div><div class="bar-label"><span>3 of 3 submitted</span></div></div>
           <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">6</span></div>
             <div class="fchips"><span class="fchip">M3_RM_L1.docx</span><span class="fchip">M3_RM_L2.docx</span><span class="fchip">M3_RM_L3.docx</span><span class="fchip">M3_RM_L4.1.docx</span><span class="fchip">M3_RM_L4.2.docx</span><span class="fchip">M3_RM_L5.docx</span></div></div></div>
           <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Watch <span class="rwd-count">5</span></div>
@@ -169,7 +181,7 @@ main{display:flex;flex-direction:column;gap:22px;}
 
         <div class="mcard">
           <div class="mcard-head"><span class="mcard-title">Module 4</span><span class="mcard-frac">1/3</span></div>
-          <div class="bar-track"><div class="bar-fill t1"></div><div class="bar-label"><span>1/3 ready</span></div></div>
+          <div class="bar-track"><div class="bar-fill t1"></div><div class="bar-label"><span>1 of 3 submitted</span></div></div>
           <div class="rwd-row"><span class="dot"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">0</span></div><div class="rwd-dash">—</div></div></div>
           <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Watch <span class="rwd-count">7</span></div>
             <div class="fchips"><span class="fchip">M4_SL_L1. Vector Representations.pptx</span><span class="fchip">M4_SL_L2. Dense Vectors.pptx</span><span class="fchip">M4_SL_L3. Word2Vec.pptx</span><span class="fchip">M4_SL_L4. Cbow.pptx</span><span class="fchip">M4_SL_L5. Glove.pptx</span><span class="fchip">M4_SL_L6.Vectors-Fastext.pptx</span><span class="fchip">M4_SL_L7. Vectors- Elmo.pptx</span></div></div></div>
@@ -178,7 +190,7 @@ main{display:flex;flex-direction:column;gap:22px;}
 
         <div class="mcard">
           <div class="mcard-head"><span class="mcard-title">Module 5</span><span class="mcard-frac">1/3</span></div>
-          <div class="bar-track"><div class="bar-fill t1"></div><div class="bar-label"><span>1/3 ready</span></div></div>
+          <div class="bar-track"><div class="bar-fill t1"></div><div class="bar-label"><span>1 of 3 submitted</span></div></div>
           <div class="rwd-row"><span class="dot"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">0</span></div><div class="rwd-dash">—</div></div></div>
           <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Watch <span class="rwd-count">4</span></div>
             <div class="fchips"><span class="fchip">M5_SL_L1.NN and NLP.pptx</span><span class="fchip">M5_SL_L2. RNN and NLP.pptx</span><span class="fchip">M5_SL_L3. LM and RNN.pptx</span><span class="fchip">M5_SL_L4. Sequence to Sequence.pptx</span></div></div></div>
@@ -187,7 +199,7 @@ main{display:flex;flex-direction:column;gap:22px;}
 
         <div class="mcard">
           <div class="mcard-head"><span class="mcard-title">Module 6</span><span class="mcard-frac">0/3</span></div>
-          <div class="bar-track"><div class="bar-fill t0"></div><div class="bar-label"><span>0/3 ready</span></div></div>
+          <div class="bar-track"><div class="bar-fill t0"></div><div class="bar-label"><span>0 of 3 submitted</span></div></div>
           <div class="rwd-row"><span class="dot"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">0</span></div><div class="rwd-dash">—</div></div></div>
           <div class="rwd-row"><span class="dot"></span><div class="rwd-body"><div class="rwd-label">Watch <span class="rwd-count">0</span></div><div class="rwd-dash">—</div></div></div>
           <div class="rwd-row"><span class="dot"></span><div class="rwd-body"><div class="rwd-label">Do <span class="rwd-count">0</span></div><div class="rwd-dash">—</div></div></div>
@@ -204,7 +216,7 @@ main{display:flex;flex-direction:column;gap:22px;}
       <div class="module-grid">
         <div class="mcard">
           <div class="mcard-head"><span class="mcard-title">Module 1</span><span class="mcard-frac">2/3</span></div>
-          <div class="bar-track"><div class="bar-fill t2"></div><div class="bar-label"><span>2/3 ready</span></div></div>
+          <div class="bar-track"><div class="bar-fill t2"></div><div class="bar-label"><span>2 of 3 submitted</span></div></div>
           <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">3</span></div>
             <div class="fchips"><span class="fchip">M1-L1-RM1_New.docx</span><span class="fchip">M1_L3_RM.docx</span><span class="fchip">M1-L4-RM.docx</span></div></div></div>
           <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Watch <span class="rwd-count">3</span></div>
@@ -213,11 +225,18 @@ main{display:flex;flex-direction:column;gap:22px;}
         </div>
         <div class="mcard">
           <div class="mcard-head"><span class="mcard-title">Module 2</span><span class="mcard-frac">2/3</span></div>
-          <div class="bar-track"><div class="bar-fill t2"></div><div class="bar-label"><span>2/3 ready</span></div></div>
-          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">2</span></div>
-            <div class="fchips"><span class="fchip">M2_RM_L1.docx</span><span class="fchip">M2-RM-L2.docx</span></div></div></div>
-          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Watch <span class="rwd-count">2</span></div>
-            <div class="fchips"><span class="fchip">M2_L1.pptx</span><span class="fchip">M2-L2-.pptx</span></div></div></div>
+          <div class="bar-track"><div class="bar-fill t2"></div><div class="bar-label"><span>2 of 3 submitted</span></div></div>
+          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">4</span></div>
+            <div class="fchips"><span class="fchip">M2_RM_L1.docx</span><span class="fchip">M2-RM-L2.docx</span><span class="fchip">M2-RM-L3.docx</span><span class="fchip">M2-RM-L4.docx</span></div></div></div>
+          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Watch <span class="rwd-count">4</span></div>
+            <div class="fchips"><span class="fchip">M2_L1.pptx</span><span class="fchip">M2-L2-.pptx</span><span class="fchip">M2-L3.pptx</span><span class="fchip">M2-L4.pptx</span></div></div></div>
+          <div class="rwd-row"><span class="dot"></span><div class="rwd-body"><div class="rwd-label">Do <span class="rwd-count">0</span></div><div class="rwd-dash">—</div></div></div>
+        </div>
+        <div class="mcard">
+          <div class="mcard-head"><span class="mcard-title">Module 3</span><span class="mcard-frac">0/3</span></div>
+          <div class="bar-track"><div class="bar-fill t0"></div><div class="bar-label"><span>0 of 3 submitted</span></div></div>
+          <div class="rwd-row"><span class="dot"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">0</span></div><div class="rwd-dash">—</div></div></div>
+          <div class="rwd-row"><span class="dot"></span><div class="rwd-body"><div class="rwd-label">Watch <span class="rwd-count">0</span></div><div class="rwd-dash">—</div></div></div>
           <div class="rwd-row"><span class="dot"></span><div class="rwd-body"><div class="rwd-label">Do <span class="rwd-count">0</span></div><div class="rwd-dash">—</div></div></div>
         </div>
       </div>
@@ -229,7 +248,7 @@ main{display:flex;flex-direction:column;gap:22px;}
       <div class="module-grid">
         <div class="mcard">
           <div class="mcard-head"><span class="mcard-title">Module 1</span><span class="mcard-frac">0/3</span></div>
-          <div class="bar-track"><div class="bar-fill t0"></div><div class="bar-label"><span>0/3 ready</span></div></div>
+          <div class="bar-track"><div class="bar-fill t0"></div><div class="bar-label"><span>0 of 3 submitted</span></div></div>
           <div class="rwd-row"><span class="dot"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">0</span></div><div class="rwd-dash">—</div></div></div>
           <div class="rwd-row"><span class="dot"></span><div class="rwd-body"><div class="rwd-label">Watch <span class="rwd-count">0</span></div><div class="rwd-dash">—</div></div></div>
           <div class="rwd-row"><span class="dot"></span><div class="rwd-body"><div class="rwd-label">Do <span class="rwd-count">0</span></div><div class="rwd-dash">—</div></div></div>
@@ -245,7 +264,7 @@ main{display:flex;flex-direction:column;gap:22px;}
       <div class="module-grid">
         <div class="mcard">
           <div class="mcard-head"><span class="mcard-title">Module 0</span><span class="mcard-frac">1/3</span></div>
-          <div class="bar-track"><div class="bar-fill t1"></div><div class="bar-label"><span>1/3 ready</span></div></div>
+          <div class="bar-track"><div class="bar-fill t1"></div><div class="bar-label"><span>1 of 3 submitted</span></div></div>
           <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">1</span></div>
             <div class="fchips"><span class="fchip">M0 RM.pdf</span></div></div></div>
           <div class="rwd-row"><span class="dot"></span><div class="rwd-body"><div class="rwd-label">Watch <span class="rwd-count">0</span></div><div class="rwd-dash">—</div></div></div>
@@ -253,54 +272,56 @@ main{display:flex;flex-direction:column;gap:22px;}
         </div>
         <div class="mcard">
           <div class="mcard-head"><span class="mcard-title">Module 1</span><span class="mcard-frac">3/3</span></div>
-          <div class="bar-track"><div class="bar-fill t3"></div><div class="bar-label"><span>3/3 ready</span></div></div>
-          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">1</span></div>
-            <div class="fchips"><span class="fchip">M1 RM L1</span></div></div></div>
+          <div class="bar-track"><div class="bar-fill t3"></div><div class="bar-label"><span>3 of 3 submitted</span></div></div>
+          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">7</span></div>
+            <div class="fchips"><span class="fchip">M1 RM L1</span><span class="fchip">M1 RM L2.pdf</span><span class="fchip">M1 RM L3.pdf</span><span class="fchip">M1 RM L4.pdf</span><span class="fchip">M1 RM L5.pdf</span><span class="fchip">M1 RM L6.pdf</span><span class="fchip">M1 RM 1.pdf</span></div></div></div>
           <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Watch <span class="rwd-count">6</span></div>
             <div class="fchips"><span class="fchip">M1 L1 Slide.pptx</span><span class="fchip">M1 L2 Slide.pptx</span><span class="fchip">M1 L3 Slide.pptx</span><span class="fchip">M1 L4 Slide.pptx</span><span class="fchip">M1 L5 Slide.pptx</span><span class="fchip">M1 L6 Slide.pptx</span></div></div></div>
           <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Do <span class="rwd-count">2</span></div>
-            <div class="fchips"><span class="fchip">M1 L1 Quiz</span><span class="fchip">M1 L1 Assignment</span></div></div></div>
+            <div class="fchips"><span class="fchip">M1 L1 Quiz</span><span class="fchip">M1 Assignment.pdf</span></div></div></div>
         </div>
         <div class="mcard">
-          <div class="mcard-head"><span class="mcard-title">Module 2</span><span class="mcard-frac">2/3</span></div>
-          <div class="bar-track"><div class="bar-fill t2"></div><div class="bar-label"><span>2/3 ready</span></div></div>
-          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">2</span></div>
-            <div class="fchips"><span class="fchip">M2 RM L4 Extra.pdf</span><span class="fchip">M2 RM L6 Extra.pdf</span></div></div></div>
+          <div class="mcard-head"><span class="mcard-title">Module 2</span><span class="mcard-frac">3/3</span></div>
+          <div class="bar-track"><div class="bar-fill t3"></div><div class="bar-label"><span>3 of 3 submitted</span></div></div>
+          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">11</span></div>
+            <div class="fchips"><span class="fchip">M2 RM L1.pdf</span><span class="fchip">M2 RM L2.pdf</span><span class="fchip">M2 RM L3.pdf</span><span class="fchip">M2 RM L4.pdf</span><span class="fchip">M2 RM L5.pdf</span><span class="fchip">M2 RM L6.pdf</span><span class="fchip">M2 extra RM 1.pdf</span><span class="fchip">M2 extra RM 2.pdf</span><span class="fchip">M2 extra RM 3.pdf</span><span class="fchip">M2 extra RM 4.pdf</span><span class="fchip">M2 extra RM 5.pdf</span></div></div></div>
           <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Watch <span class="rwd-count">6</span></div>
             <div class="fchips"><span class="fchip">M2 L1 Slide.pptx</span><span class="fchip">M2 L2 Slide.pptx</span><span class="fchip">M2 L3 Slide.pptx</span><span class="fchip">M2 L4 Slide.pptx</span><span class="fchip">M2 L5 Slide.pptx</span><span class="fchip">M2 L6 Slide.pptx</span></div></div></div>
-          <div class="rwd-row"><span class="dot"></span><div class="rwd-body"><div class="rwd-label">Do <span class="rwd-count">0</span></div><div class="rwd-dash">—</div></div></div>
-          <div class="nonconform">+1 file not matching convention</div>
+          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Do <span class="rwd-count">1</span></div>
+            <div class="fchips"><span class="fchip">M2 Assignment.pdf</span></div></div></div>
         </div>
         <div class="mcard">
-          <div class="mcard-head"><span class="mcard-title">Module 3</span><span class="mcard-frac">2/3</span></div>
-          <div class="bar-track"><div class="bar-fill t2"></div><div class="bar-label"><span>2/3 ready</span></div></div>
-          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">2</span></div>
-            <div class="fchips"><span class="fchip">RM 1.pdf</span><span class="fchip">RM 2.pdf</span></div></div></div>
+          <div class="mcard-head"><span class="mcard-title">Module 3</span><span class="mcard-frac">3/3</span></div>
+          <div class="bar-track"><div class="bar-fill t3"></div><div class="bar-label"><span>3 of 3 submitted</span></div></div>
+          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">6</span></div>
+            <div class="fchips"><span class="fchip">M3 RM L1.pdf</span><span class="fchip">M3 RM L2.pdf</span><span class="fchip">M3 RM L3.pdf</span><span class="fchip">M3 RM L4.pdf</span><span class="fchip">M3 Extra RM 1.pdf</span><span class="fchip">M3 Extra RM 2.pdf</span></div></div></div>
           <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Watch <span class="rwd-count">4</span></div>
             <div class="fchips"><span class="fchip">M3 L1 Slide.pptx</span><span class="fchip">M3 L2 Slide.pptx</span><span class="fchip">M3 L3 Slide.pptx</span><span class="fchip">M3 L4 Slide.pptx</span></div></div></div>
-          <div class="rwd-row"><span class="dot"></span><div class="rwd-body"><div class="rwd-label">Do <span class="rwd-count">0</span></div><div class="rwd-dash">—</div></div></div>
+          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Do <span class="rwd-count">1</span></div>
+            <div class="fchips"><span class="fchip">M3 Assignment.pdf</span></div></div></div>
         </div>
         <div class="mcard">
-          <div class="mcard-head"><span class="mcard-title">Module 4</span><span class="mcard-frac">2/3</span></div>
-          <div class="bar-track"><div class="bar-fill t2"></div><div class="bar-label"><span>2/3 ready</span></div></div>
-          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">1</span></div>
-            <div class="fchips"><span class="fchip">RM 1.pdf</span></div></div></div>
+          <div class="mcard-head"><span class="mcard-title">Module 4</span><span class="mcard-frac">3/3</span></div>
+          <div class="bar-track"><div class="bar-fill t3"></div><div class="bar-label"><span>3 of 3 submitted</span></div></div>
+          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">7</span></div>
+            <div class="fchips"><span class="fchip">RM 1.pdf</span><span class="fchip">M4 RM L1.pdf</span><span class="fchip">M4 RM L2.pdf</span><span class="fchip">M4 RM L3.pdf</span><span class="fchip">M4 RM L4.pdf</span><span class="fchip">M4 RM L5.pdf</span><span class="fchip">M4 extra RM 1.pdf</span></div></div></div>
           <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Watch <span class="rwd-count">5</span></div>
             <div class="fchips"><span class="fchip">M4 L1 Slide.pptx</span><span class="fchip">M4 L2 Slide.pptx</span><span class="fchip">M4 L3 Slide.pptx</span><span class="fchip">M4 L4 Slide.pptx</span><span class="fchip">M4 L5 Slide.pptx</span></div></div></div>
-          <div class="rwd-row"><span class="dot"></span><div class="rwd-body"><div class="rwd-label">Do <span class="rwd-count">0</span></div><div class="rwd-dash">—</div></div></div>
+          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Do <span class="rwd-count">1</span></div>
+            <div class="fchips"><span class="fchip">M4 Assignment.pdf</span></div></div></div>
         </div>
         <div class="mcard">
           <div class="mcard-head"><span class="mcard-title">Module 5</span><span class="mcard-frac">2/3</span></div>
-          <div class="bar-track"><div class="bar-fill t2"></div><div class="bar-label"><span>2/3 ready</span></div></div>
-          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">3</span></div>
-            <div class="fchips"><span class="fchip">RM 1.pdf</span><span class="fchip">RM 2.pdf</span><span class="fchip">RM 3.pdf</span></div></div></div>
+          <div class="bar-track"><div class="bar-fill t2"></div><div class="bar-label"><span>2 of 3 submitted</span></div></div>
+          <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">5</span></div>
+            <div class="fchips"><span class="fchip">M5 RM L1.pdf</span><span class="fchip">M5 RM L2.pdf</span><span class="fchip">M5 RM L3.pdf</span><span class="fchip">M5 RM L4.pdf</span><span class="fchip">M5 Extra RM 1.pdf</span></div></div></div>
           <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Watch <span class="rwd-count">4</span></div>
             <div class="fchips"><span class="fchip">M5 L1 Slide.pptx</span><span class="fchip">M5 L2 Slide.pptx</span><span class="fchip">M5 L3 Slide.pptx</span><span class="fchip">M5 L4 Slide.pptx</span></div></div></div>
           <div class="rwd-row"><span class="dot"></span><div class="rwd-body"><div class="rwd-label">Do <span class="rwd-count">0</span></div><div class="rwd-dash">—</div></div></div>
         </div>
         <div class="mcard">
           <div class="mcard-head"><span class="mcard-title">Module 6</span><span class="mcard-frac">2/3</span></div>
-          <div class="bar-track"><div class="bar-fill t2"></div><div class="bar-label"><span>2/3 ready</span></div></div>
+          <div class="bar-track"><div class="bar-fill t2"></div><div class="bar-label"><span>2 of 3 submitted</span></div></div>
           <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">1</span></div>
             <div class="fchips"><span class="fchip">RM 1.pdf</span></div></div></div>
           <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Watch <span class="rwd-count">5</span></div>
@@ -309,7 +330,7 @@ main{display:flex;flex-direction:column;gap:22px;}
         </div>
         <div class="mcard">
           <div class="mcard-head"><span class="mcard-title">Module 7</span><span class="mcard-frac">1/3</span></div>
-          <div class="bar-track"><div class="bar-fill t1"></div><div class="bar-label"><span>1/3 ready</span></div></div>
+          <div class="bar-track"><div class="bar-fill t1"></div><div class="bar-label"><span>1 of 3 submitted</span></div></div>
           <div class="rwd-row"><span class="dot"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">0</span></div><div class="rwd-dash">—</div></div></div>
           <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Watch <span class="rwd-count">4</span></div>
             <div class="fchips"><span class="fchip">M7 L1 Slide.pptx</span><span class="fchip">M7 L2 Slide.pptx</span><span class="fchip">M7 L3 Slide.pptx</span><span class="fchip">M7 L4 Slide.pptx</span></div></div></div>
@@ -317,7 +338,7 @@ main{display:flex;flex-direction:column;gap:22px;}
         </div>
         <div class="mcard">
           <div class="mcard-head"><span class="mcard-title">Module 8</span><span class="mcard-frac">2/3</span></div>
-          <div class="bar-track"><div class="bar-fill t2"></div><div class="bar-label"><span>2/3 ready</span></div></div>
+          <div class="bar-track"><div class="bar-fill t2"></div><div class="bar-label"><span>2 of 3 submitted</span></div></div>
           <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Read <span class="rwd-count">4</span></div>
             <div class="fchips"><span class="fchip">RM 1.pdf</span><span class="fchip">RM 2.pdf</span><span class="fchip">RM 3.pdf</span><span class="fchip">RM 4.pdf</span></div></div></div>
           <div class="rwd-row"><span class="dot filled"></span><div class="rwd-body"><div class="rwd-label">Watch <span class="rwd-count">3</span></div>
